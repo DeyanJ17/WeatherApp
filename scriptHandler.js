@@ -21,12 +21,17 @@ async function checkWeather(entry) {
         document.querySelector(".error").style.display = "block";
     } else {
         var data = await response.json();
-        const currentUTCHour = new Date().getUTCHours();
-        var localTime = currentUTCHour+(data.timezone/(60*60));
+        
+        const utcDate = new Date();
+        let sunriseUnix = data.sys.sunrise;
+        let sunsetUnix = data.sys.sunset;
+        var sunrise = new Date(sunriseUnix*1000);
+        var sunset = new Date(sunsetUnix*1000);
         let isNight = false;
-        if(localTime >= 17 || localTime < 7) { // better way is to use sunrise/sunset data in JSON
+        if(utcDate >= sunset || utcDate <= sunrise) {
             isNight = true;
         }
+        
         if(data.name != "") {
             document.querySelector(".entry").innerHTML = data.name;
         } else {
@@ -38,7 +43,9 @@ async function checkWeather(entry) {
 
         const mainWeather = data.weather[0].main 
         if(mainWeather == "Clouds") {
-            if(isNight) {
+            if(data.clouds.all >= 70) {
+                weatherIcon.src = "images/cloudy.png";
+            } else if(isNight) {
                 weatherIcon.src = "images/clouds-night.png";
             } else {
                 weatherIcon.src = "images/clouds.png";
@@ -53,6 +60,8 @@ async function checkWeather(entry) {
             weatherIcon.src = "images/rain.png";
         } else if(mainWeather == "Snow") {
             weatherIcon.src = "images/snow.png";
+        } else if(mainWeather == "Sleet") {
+            weatherIcon.src = "images/sleet.png";
         } else if(mainWeather == "Mist") {
           weatherIcon.src = "images/mist.png"  
         } else if(mainWeather == "Fog") {

@@ -11,7 +11,8 @@ async function checkWeather(entry) {
     var location;
     if(isNaN(parseFloat(checkNumber[0]))) {
         var location = "q=" + entry;
-    } else { 
+    } 
+    else { 
         var location = "lat=" + checkNumber[0] + "&lon=" + checkNumber[1];
     }
     
@@ -19,7 +20,8 @@ async function checkWeather(entry) {
 
     if(response.status == 404) {
         document.querySelector(".error").style.display = "block";
-    } else {
+    } 
+    else {
         var data = await response.json();
         
         const utcDate = new Date();
@@ -34,7 +36,8 @@ async function checkWeather(entry) {
         
         if(data.name != "") {
             document.querySelector(".entry").innerHTML = data.name;
-        } else {
+        } 
+        else {
             document.querySelector(".entry").innerHTML = "Unnamed Location";
         }
         document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°F";
@@ -45,28 +48,37 @@ async function checkWeather(entry) {
         if(mainWeather == "Clouds") {
             if(data.clouds.all >= 70) {
                 weatherIcon.src = "images/cloudy.png";
-            } else if(isNight) {
+            } 
+            else if(isNight) {
                 weatherIcon.src = "images/clouds-night.png";
-            } else {
+            } 
+            else {
                 weatherIcon.src = "images/clouds.png";
             }
         } else if(mainWeather == "Clear") {
             if(isNight) {
                 weatherIcon.src = "images/clear-night.png";
-            } else {
+            } 
+            else {
                 weatherIcon.src = "images/clear.png";
             }
-        } else if(mainWeather == "Rain") {
+        } 
+        else if(mainWeather == "Rain") {
             weatherIcon.src = "images/rain.png";
-        } else if(mainWeather == "Snow") {
+        } 
+        else if(mainWeather == "Snow") {
             weatherIcon.src = "images/snow.png";
-        } else if(mainWeather == "Sleet") {
+        } 
+        else if(mainWeather == "Sleet") {
             weatherIcon.src = "images/sleet.png";
-        } else if(mainWeather == "Mist") {
+        } 
+        else if(mainWeather == "Mist") {
           weatherIcon.src = "images/mist.png"  
-        } else if(mainWeather == "Fog") {
+        } 
+        else if(mainWeather == "Fog") {
             weatherIcon.src = "images/fog.png"  
-        } else if(mainWeather == "Extreme") {
+        } 
+        else if(mainWeather == "Extreme") {
             weatherIcon.src = "images/extreme.png";
         }
 
@@ -93,9 +105,11 @@ convertButton.addEventListener("click", () => {
         wind.textContent = kmh.toFixed(2) + " km/h";
 
         convertButton.textContent = "To Imperial";
-    } else {
+    } 
+    else {
         const temp = document.querySelector(".temp");
-        const celsius = parseFloat(temp.textContent);const fahrenheit = (celsius*(9/5)) + 32;
+        const celsius = parseFloat(temp.textContent);
+        const fahrenheit = (celsius*(9/5)) + 32;
         temp.textContent = Math.round(fahrenheit) + "°F";
 
         const wind = document.querySelector(".wind");
